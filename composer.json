@@ -1,0 +1,13 @@
+{
+    "name": "vatvit/games",
+    "description": "Project Games",
+    "authors": [
+        {
+            "name": "Vitalii Vatulia",
+            "email": "vatvit@gmail.com"
+        }
+    ],
+    "require-dev": {
+        "squizlabs/php_codesniffer": "2.0.*@dev"
+    }
+}
