@@ -1,6 +1,6 @@
 <?php
 
-namespace Module\Admin;
+namespace Games\Module\Admin;
 
 use Phalcon\Config;
 use Phalcon\Di;
@@ -23,7 +23,7 @@ class Module implements ModuleDefinitionInterface
         $loader = new Loader();
 
         $loader->registerNamespaces([
-            'Module\Admin\Controller' => '../app/modules/admin/controllers/',
+            'Games\Module\Admin\Controller' => '../app/modules/admin/controllers/',
         ]);
 
         $loader->register();

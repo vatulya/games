@@ -2,6 +2,6 @@
 
 return new \Phalcon\Config([
     'dispatcher' => [
-        'defaultNamespace' => 'Module\Api\Controller',
+        'defaultNamespace' => 'Games\Module\Api\Controller',
     ],
 ]);

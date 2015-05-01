@@ -19,10 +19,12 @@ $di->setShared('db', function () use ($config) {
     ]);
 });
 
-//Registering a dispatcher
+$di->setShared('eventsManager', '\Phalcon\Events\Manager');
+
 $di->set('dispatcher', function() use ($di) {
     $dispatcher = new \Phalcon\Mvc\Dispatcher();
     $dispatcher->setDefaultNamespace($di->get('config')->dispatcher->defaultNamespace);
+    $dispatcher->setEventsManager($di->get('eventsManager'));
     return $dispatcher;
 });
 

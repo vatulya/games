@@ -1,6 +1,6 @@
 <?php
 
-namespace Module\Frontend\Controller;
+namespace Games\Module\Frontend\Controller;
 
 use Phalcon\Mvc\Controller;
 

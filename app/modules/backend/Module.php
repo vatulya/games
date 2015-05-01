@@ -1,6 +1,6 @@
 <?php
 
-namespace Module\Backend;
+namespace Games\Module\Backend;
 
 use Phalcon\Config;
 use Phalcon\Di;
@@ -23,7 +23,7 @@ class Module implements ModuleDefinitionInterface
         $loader = new Loader();
 
         $loader->registerNamespaces([
-            'Module\Backend\Controller' => '../app/modules/backend/controllers/',
+            'Games\Module\Backend\Controller' => '../app/modules/backend/controllers/',
         ]);
 
         $loader->register();

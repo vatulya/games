@@ -1,6 +1,6 @@
 <?php
 
-namespace Module\Api;
+namespace Games\Module\Api;
 
 use Phalcon\Config;
 use Phalcon\Di;
@@ -23,7 +23,7 @@ class Module implements ModuleDefinitionInterface
         $loader = new Loader();
 
         $loader->registerNamespaces([
-            'Module\Api\Controller' => '../app/modules/api/controllers/',
+            'Games\Module\Api\Controller' => '../app/modules/api/controllers/',
         ]);
 
         $loader->register();

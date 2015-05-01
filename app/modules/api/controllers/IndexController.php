@@ -1,6 +1,6 @@
 <?php
 
-namespace Module\Api\Controller;
+namespace Games\Module\Api\Controller;
 
 class IndexController extends ControllerBase
 {

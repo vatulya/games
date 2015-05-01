@@ -1,6 +1,6 @@
 <?php
 
-namespace Module\Api\Controller;
+namespace Games\Module\Api\Controller;
 
 use Phalcon\Http\Response;
 use Phalcon\Mvc\Controller;
