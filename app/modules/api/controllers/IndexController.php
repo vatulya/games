@@ -1,14 +1,14 @@
 <?php
 
-namespace Module\Frontend\Controller;
+namespace Module\Api\Controller;
 
 class IndexController extends ControllerBase
 {
 
     public function indexAction()
     {
-        $a = 1;
         // nothing
+        $this->view->message = 'api::index::index';
     }
 
 }

@@ -1,13 +1,12 @@
 <?php
 
-namespace Module\Frontend\Controller;
+namespace Module\Backend\Controller;
 
 class IndexController extends ControllerBase
 {
 
     public function indexAction()
     {
-        $a = 1;
         // nothing
     }
 

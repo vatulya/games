@@ -1,6 +1,6 @@
 <?php
 
-namespace Module\Frontend;
+namespace Module\Admin;
 
 use Phalcon\Config;
 use Phalcon\Di;
@@ -23,7 +23,7 @@ class Module implements ModuleDefinitionInterface
         $loader = new Loader();
 
         $loader->registerNamespaces([
-            'Module\Frontend\Controller' => '../app/modules/frontend/controllers/',
+            'Module\Admin\Controller' => '../app/modules/admin/controllers/',
         ]);
 
         $loader->register();
@@ -42,7 +42,7 @@ class Module implements ModuleDefinitionInterface
 
         /** @var View $view */
         $view = $dependencyInjector->get('commonView');
-        $view->setViewsDir('../app/modules/frontend/views/');
+        $view->setViewsDir('../app/modules/admin/views/');
         $dependencyInjector->setShared('view', $view);
     }
 

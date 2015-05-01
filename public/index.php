@@ -9,9 +9,15 @@ error_reporting(-1);
 
 try {
 
+//    include __DIR__ . '/../app/bootstrap.php';
     $application = include __DIR__ . '/../app/bootstrap.php';
 
-    echo $application->handle()->getContent();
+    if ($application) {
+        $uri = $di->get('request')->getURI();
+        $result = $application->handle();
+        $result = $result->getContent();
+        echo $result;
+    }
 
 } catch (\Exception $e) {
     echo $e->getMessage();
