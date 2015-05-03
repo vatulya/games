@@ -42,30 +42,28 @@ class ContextManager extends Plugin
         $this->$method();
     }
 
+    /**
+     * HTML format must prepare View params
+     * View must not render layouts and render only action template
+     */
     public function processFormatHTML() {
         /** @var View $view */
         $view = $this->getDi()->get('view');
         $view->setRenderLevel(View::LEVEL_BEFORE_TEMPLATE); // or LEVEL_ACTION_VIEW
     }
 
+    /**
+     * JSON format must prepare params to View, encode them into JSON string
+     * and return to the client
+     */
     public function processFormatJSON() {
         /** @var View $view */
         $view = $this->getDi()->get('view');
-        $view->disable();
-
-        $content = json_encode($view->getParamsToView());
 
         /** @var Response $response */
         $response = $this->getDI()->get('response');
-        $response->setContentType('application/json', 'UTF-8');
-        $response->setContent($content);
-
+        $response->setJsonContent($view->getParamsToView());
         $response->send();
-    }
-
-    public function processFormatXML() {
-        // TODO: finish this method
-        return true;
     }
 
     /**
@@ -75,7 +73,7 @@ class ContextManager extends Plugin
         return [
             self::FORMAT_HTML,
             self::FORMAT_JSON,
-            self::FORMAT_XML
+//            self::FORMAT_XML
         ];
     }
 
