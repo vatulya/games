@@ -1,8 +1,7 @@
 <?php
 
 use Phalcon\Di as Di;
-use Phalcon\DI\FactoryDefault;
-use Phalcon\Mvc\Application as PhalconApplication;
+use Phalcon\DI\FactoryDefault as FactoryDefault;
 use Games\Library\File\Loader as FileLoader;
 
 defined('APPLICATION_PATH') || define('APPLICATION_PATH', __DIR__);
@@ -22,7 +21,7 @@ FileLoader::includeFile(APPLICATION_PATH . '/config/routers.php');
 FileLoader::includeFile(APPLICATION_PATH . '/config/services.php');
 FileLoader::includeFile(APPLICATION_PATH . '/config/events.php');
 
-$application = new PhalconApplication($di);
+$application = new \Phalcon\Mvc\Application($di);
 
 // Register the installed modules
 $application->registerModules([
