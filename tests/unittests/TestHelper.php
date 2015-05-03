@@ -24,7 +24,4 @@ $loader->registerNamespaces([
 ]);
 $loader->register();
 
-// Use common View as default View
-$di->setShared('view', $di->get('commonView'));
-
 DI::setDefault($di);

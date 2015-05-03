@@ -2,14 +2,8 @@
 
 namespace Games\Module\Frontend;
 
-use Phalcon\Config;
-use Phalcon\Di;
-use Phalcon\Loader;
-use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\ModuleDefinitionInterface;
-use Phalcon\Mvc\View;
-
-defined('MODULE_PATH') || define('MODULE_PATH', __DIR__);
+use Games\Library\File\Loader as FileLoader;
 
 class Module implements ModuleDefinitionInterface
 {
@@ -20,13 +14,7 @@ class Module implements ModuleDefinitionInterface
      * @param \Phalcon\DiInterface $dependencyInjector
      */
     public function registerAutoloaders(\Phalcon\DiInterface $dependencyInjector = null) {
-        $loader = new Loader();
-
-        $loader->registerNamespaces([
-            'Games\Module\Frontend\Controller' => '../app/modules/frontend/controllers/',
-        ]);
-
-        $loader->register();
+            FileLoader::includeFile(__DIR__ . '/config/loader.php');
     }
 
     /**
@@ -35,15 +23,10 @@ class Module implements ModuleDefinitionInterface
      * @param \Phalcon\DiInterface $dependencyInjector
      */
     public function registerServices(\Phalcon\DiInterface $dependencyInjector) {
-        /** @var Config $config */
-        $config = $dependencyInjector->get('config');
-        $config->merge(include MODULE_PATH . '/config/config.php');
-        $dependencyInjector->setShared('config', $config);
-
-        /** @var View $view */
-        $view = $dependencyInjector->get('commonView');
-        $view->setViewsDir('../app/modules/frontend/views/');
-        $dependencyInjector->setShared('view', $view);
+        FileLoader::includeConfig(__DIR__ . '/config/config.php');
+        FileLoader::includeFile(__DIR__ . '/config/routers.php', true);
+        FileLoader::includeFile(__DIR__ . '/config/services.php', true);
+        FileLoader::includeFile(__DIR__ . '/config/events.php', true);
     }
 
 }

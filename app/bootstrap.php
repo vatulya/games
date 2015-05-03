@@ -1,19 +1,28 @@
 <?php
 
+use Phalcon\Di as Di;
 use Phalcon\DI\FactoryDefault;
+use Phalcon\Mvc\Application as PhalconApplication;
+use Games\Library\File\Loader as FileLoader;
 
 defined('APPLICATION_PATH') || define('APPLICATION_PATH', __DIR__);
+defined('LOGS_PATH') || define('LOGS_PATH', APPLICATION_PATH . '/../logs');
+
+require_once APPLICATION_PATH . '/libraries/File/Loader.php'; // Access to FileLoader class
 
 $di = new FactoryDefault();
+$di->setShared('config', new \Phalcon\Config());
 
-$config = include APPLICATION_PATH . '/config/config.php';
+Di::reset();
+Di::setDefault($di);
 
-include APPLICATION_PATH . '/config/loader.php';
-include APPLICATION_PATH . '/config/routers.php';
-include APPLICATION_PATH . '/config/services.php';
-include APPLICATION_PATH . '/config/events.php';
+FileLoader::includeFile(APPLICATION_PATH . '/config/loader.php');
+FileLoader::includeConfig(APPLICATION_PATH . '/config/config.php');
+FileLoader::includeFile(APPLICATION_PATH . '/config/routers.php');
+FileLoader::includeFile(APPLICATION_PATH . '/config/services.php');
+FileLoader::includeFile(APPLICATION_PATH . '/config/events.php');
 
-$application = new \Phalcon\Mvc\Application($di);
+$application = new PhalconApplication($di);
 
 // Register the installed modules
 $application->registerModules([

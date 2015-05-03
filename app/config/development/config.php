@@ -1,17 +1,17 @@
 <?php
 
 return new \Phalcon\Config([
-    'urlBase' => 'games.com',
+    'urlBase' => 'games.local',
     'moduleUrlBase' => [
-        'admin' => 'admin.games.com',
-        'api' => 'api.games.com',
-        'backend' => 'backend.games.com',
-        'frontend' => 'games.com',
+        'admin' => 'admin.games.local',
+        'api' => 'api.games.local',
+        'backend' => 'backend.games.local',
+        'frontend' => 'games.local',
     ],
 
     'database' => [
         'adapter' => 'Mysql',
-        'host' => 'db.games.com',
+        'host' => 'localhost',
         'username' => 'games',
         'password' => 'games_pass',
         'dbname' => 'games',

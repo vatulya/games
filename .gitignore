@@ -1,6 +1,12 @@
+# Logs
+logs/
+
+# local file versions
+*.local.php
+
 # Dependency directory
 # https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
-node_modules
+node_modules/
 
 
 ### Composer template
@@ -14,7 +20,7 @@ composer.lock
 
 ### Phalcon template
 /app/cache/
-/app/config/development/
+#/app/config/development/
 
 
 ### JetBrains template

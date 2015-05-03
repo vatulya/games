@@ -1,9 +1,14 @@
 <?php
 
-use Phalcon\Mvc\Router;
+use Phalcon\Mvc\Router as Router;
 use Phalcon\Mvc\Router\Group as RouterGroup;
 
-$di->set('router', function () use ($config) {
+$di = \Phalcon\Di::getDefault();
+
+$di->set('router', function () use ($di) {
+
+    /** @var \Phalcon\Config $config */
+    $config = $di->get('config');
 
     $router = new Router();
     $router->removeExtraSlashes(true);
@@ -17,25 +22,13 @@ $di->set('router', function () use ($config) {
         return true;
     };
 
-    // Frontend module
-    $frontendGroup = new RouterGroup([
-        'module' => 'frontend',
-        'controller' => 'index',
-        'action' => 'index',
+    // Admin module
+    $adminGroup = new RouterGroup([
+        'module' => 'admin',
     ]);
-    $frontendGroup->setHostname('games.local');
-    $addSubRoutes($frontendGroup);
-    $router->mount($frontendGroup);
-
-    // Backend module
-    $backendGroup = new RouterGroup([
-        'module' => 'backend',
-        'controller' => 'index',
-        'action' => 'index',
-    ]);
-    $backendGroup->setHostname('backend.games.local');
-    $addSubRoutes($backendGroup);
-    $router->mount($backendGroup);
+    $adminGroup->setHostname($config['moduleUrlBase']['admin']);
+    $addSubRoutes($adminGroup);
+    $router->mount($adminGroup);
 
     // Api module
     $apiGroup = new RouterGroup([
@@ -43,17 +36,29 @@ $di->set('router', function () use ($config) {
         'controller' => 'index',
         'action' => 'index',
     ]);
-    $apiGroup->setHostname('api.games.local');
+    $apiGroup->setHostname($config['moduleUrlBase']['api']);
     $addSubRoutes($apiGroup);
     $router->mount($apiGroup);
 
-    // Admin module
-    $adminGroup = new RouterGroup([
-        'module' => 'admin',
+    // Backend module
+    $backendGroup = new RouterGroup([
+        'module' => 'backend',
+        'controller' => 'index',
+        'action' => 'index',
     ]);
-    $adminGroup->setHostname('admin.games.local');
-    $addSubRoutes($adminGroup);
-    $router->mount($adminGroup);
+    $backendGroup->setHostname($config['moduleUrlBase']['backend']);
+    $addSubRoutes($backendGroup);
+    $router->mount($backendGroup);
+
+    // Frontend module
+    $frontendGroup = new RouterGroup([
+        'module' => 'frontend',
+        'controller' => 'index',
+        'action' => 'index',
+    ]);
+    $frontendGroup->setHostname($config['moduleUrlBase']['frontend']);
+    $addSubRoutes($frontendGroup);
+    $router->mount($frontendGroup);
 
     return $router;
 });

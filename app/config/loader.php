@@ -1,6 +1,8 @@
 <?php
 
-$loader = new \Phalcon\Loader();
+use Phalcon\Loader as PhalconLoader;
+
+$loader = new PhalconLoader();
 
 $loader->registerNamespaces([
     'Games\Library' => APPLICATION_PATH . '/libraries',

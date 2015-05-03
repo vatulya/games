@@ -1,13 +1,27 @@
 <?php
 
-use Phalcon\Mvc\View;
+use Phalcon\Mvc\View as View;
 use Phalcon\Mvc\Url as UrlResolver;
 use Phalcon\Db\Adapter\Pdo\Mysql as DbAdapter;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
 use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
 use Phalcon\Session\Adapter\Files as SessionAdapter;
 
-$di->setShared('config', $config);
+$di = \Phalcon\Di::getDefault();
+$config = $di->get('config');
+
+$di->setShared('logger', function () {
+    $logger = new \Phalcon\Logger\Multiple();
+
+    $minutes = sprintf('%02d', floor(date('i') / 15) * 15); // 00, 15, 30, 45
+    $filename = LOGS_PATH . '/' . date('Y-m-d_H') . '-' . $minutes . '.log';
+    $fileLogger = new \Phalcon\Logger\Adapter\File($filename);
+    $fileLogger->setFormatter(new \Games\Library\Logger\Formatter\Line());
+
+    $logger->push($fileLogger);
+
+    return $logger;
+});
 
 $di->setShared('db', function () use ($config) {
     return new DbAdapter([
@@ -21,9 +35,9 @@ $di->setShared('db', function () use ($config) {
 
 $di->setShared('eventsManager', '\Phalcon\Events\Manager');
 
-$di->set('dispatcher', function() use ($di) {
+$di->set('dispatcher', function() use ($di, $config) {
     $dispatcher = new \Phalcon\Mvc\Dispatcher();
-    $dispatcher->setDefaultNamespace($di->get('config')->dispatcher->defaultNamespace);
+    $dispatcher->setDefaultNamespace($config->dispatcher->defaultNamespace);
     $dispatcher->setEventsManager($di->get('eventsManager'));
     return $dispatcher;
 });
@@ -41,7 +55,7 @@ $di->setShared('session', function () use ($di) {
     return $session;
 });
 
-$di->setShared('commonView', function () {
+$di->setShared('view', function () {
     $view = new View();
     $view->registerEngines([
         ".volt" => function($view, $di) {
@@ -61,3 +75,4 @@ $di->setShared('commonView', function () {
     ]);
     return $view;
 });
+

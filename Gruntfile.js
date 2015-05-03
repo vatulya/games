@@ -4,6 +4,7 @@ module.exports = function(grunt) {
         return string.replace('.example', ''); // ruleset.xml.example ==> ruleset.xml
     }
 
+    //noinspection OctalIntegerJS
     grunt.initConfig({
         copy: {
             'add-codesniffer-standard': {
@@ -20,12 +21,44 @@ module.exports = function(grunt) {
                     }
                 ]
             }
+        },
+        mkdir: {
+            'create-logs': {
+                options: {
+                    mode: 0777,
+                    create: [
+                        'logs/admin',
+                        'logs/api',
+                        'logs/frontend',
+                        'logs/backend'
+                    ]
+                }
+            }
+        },
+        chmod: {
+            'make-editable': {
+                options: {
+                    mode: '777'
+                },
+                src: [
+                    'app/cache',
+                    'app/cache/**',
+                    'logs',
+                    'logs/**'
+                ]
+            }
         }
     });
 
     grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-mkdir');
+    grunt.loadNpmTasks('grunt-chmod');
 
     // Run this task after create the project
-    grunt.registerTask('init-project', ['copy:add-codesniffer-standard']);
+    grunt.registerTask('init-project', [
+        'copy:add-codesniffer-standard',
+        'mkdir:create-logs',
+        'chmod:make-editable'
+    ]);
 
 };
