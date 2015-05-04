@@ -2,9 +2,11 @@
 
 namespace Games\Library\Logger\Formatter;
 
-use Phalcon\Logger;
-use \Phalcon\Logger\FormatterInterface;
-use Phalcon\Mvc\Dispatcher;
+use Games\Library\Datetime;
+use Phalcon\Logger as Logger;
+use Phalcon\Logger\FormatterInterface as FormatterInterface;
+use Phalcon\Mvc\Dispatcher as Dispatcher;
+use Phalcon\Di as Di;
 
 class Line implements FormatterInterface
 {
@@ -53,10 +55,10 @@ class Line implements FormatterInterface
      * @return string
      */
     public function format($message, $type, $timestamp, $context = null) {
-        list ($micro) = explode(' ', microtime());
-        $micro = str_replace('0.', '.', $micro);
+        // I don't check types of variables because Phalcon calls this method
+        // I can't control this problem
         $data = [
-            '%datetime%' => date('Y-m-d H:i:s') . $micro,
+            '%datetime%' => date('Y-m-d H:i:s', $timestamp) . '.' . Datetime::getMicrotime(),
             '%type%' => self::getTypeString($type),
             '%module%' => self::getActiveModule(),
             '%message%' => $message,
@@ -73,10 +75,21 @@ class Line implements FormatterInterface
     {
         if (empty(self::$activeModule)) {
             /** @var Dispatcher $dispatcher */
-            $dispatcher = \Phalcon\Di::getDefault()->get('dispatcher');
-            self::$activeModule = $dispatcher->getModuleName();
+            $dispatcher = Di::getDefault()->get('dispatcher');
+            self::setActiveModule($dispatcher->getModuleName());
         }
         return self::$activeModule;
+    }
+
+    /**
+     * @param string $module
+     */
+    static public function setActiveModule($module)
+    {
+        if (!is_string($module)) {
+            throw new \InvalidArgumentException('Wrong module type. Must be string.');
+        }
+        self::$activeModule = $module;
     }
 
     /**

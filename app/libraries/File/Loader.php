@@ -68,6 +68,10 @@ class Loader
      * @return string
      */
     static public function addEnvIntoPath($path) {
+        if (!is_string($path)) {
+            throw new \InvalidArgumentException('Wrong path type. Must be string.');
+        }
+
         $environmentPath = explode('/', $path);
         $environmentPath = array_reverse($environmentPath);
         $environmentPath[0] = self::getEnvironment() . '/' . $environmentPath[0];
@@ -83,6 +87,9 @@ class Loader
      * @return string
      */
     static public function addLocalIntoFilename($filename) {
+        if (!is_string($filename)) {
+            throw new \InvalidArgumentException('Wrong filename type. Must be string.');
+        }
         return preg_replace('/\.php$/', '.local.php', $filename);
     }
 
@@ -94,6 +101,9 @@ class Loader
      * @throws \InvalidArgumentException
      */
     static public function requireFile($filepath, $isOptional = false) {
+        if (!is_string($filepath)) {
+            throw new \InvalidArgumentException('Wrong path type. Must be string.');
+        }
         if (file_exists($filepath)) {
             return require $filepath;
         } elseif (!$isOptional) {
@@ -117,7 +127,10 @@ class Loader
      */
     static public function setEnvironment($environment)
     {
-        self::$environment = $environment;
+        if (!is_string($environment)) {
+            throw new \InvalidArgumentException('Wrong path type. Must be string.');
+        }
+        self::$environment = (string)$environment;
         return true;
     }
 

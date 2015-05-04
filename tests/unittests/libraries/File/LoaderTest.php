@@ -17,6 +17,15 @@ class FileTest extends UnitTestCase
         GamesFileLoader::includeConfig('wrong path', false);
     }
 
+    /**
+     * @dataProvider wrongFilepathTypesProvider
+     * @expectedException \InvalidArgumentException
+     */
+    public function testIncludeConfigWhenWrongFilepathType($filepath)
+    {
+        GamesFileLoader::includeConfig($filepath, true);
+    }
+
     public function testIncludeConfig()
     {
         $filepath = TEST_PATH . '/_data/requireFileExamples/config.php';
@@ -41,6 +50,22 @@ class FileTest extends UnitTestCase
         $this->assertEquals($expected, $this->di->get('config')->toArray(), 'Expected and Actual Configs must be the same');
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testIncludeFileWhenWrongFilepathAndRequired()
+    {
+        GamesFileLoader::includeFile('wrong path', false);
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testIncludeFileWhenWrongFilepathType()
+    {
+        GamesFileLoader::includeFile([], true);
+    }
+
     public function testIncludeFile()
     {
         $filepath = TEST_PATH . '/_data/requireFileExamples/file.php';
@@ -56,6 +81,20 @@ class FileTest extends UnitTestCase
 
         $this->assertEquals('test1', $this->di->get('test1'), 'Check test data in DI');
         $this->assertEquals('test2 environment', $this->di->get('test2 environment'), 'Check environment data in DI');
+    }
+
+    public function wrongFilepathTypesProvider()
+    {
+        return [
+            [true],
+            [false],
+            [[]],
+            [new \stdClass()],
+            [1],
+            [123],
+            [-23],
+            [0],
+        ];
     }
 
 }
