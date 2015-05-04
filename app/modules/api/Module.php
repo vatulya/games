@@ -17,7 +17,6 @@ class Module implements ModuleDefinitionInterface
      */
     public function registerAutoloaders(\Phalcon\DiInterface $dependencyInjector = null) {
         FileLoader::includeFile(__DIR__ . '/config/loader.php');
-
     }
 
     /**
@@ -30,6 +29,9 @@ class Module implements ModuleDefinitionInterface
         FileLoader::includeFile(__DIR__ . '/config/routers.php', true);
         FileLoader::includeFile(__DIR__ . '/config/services.php', true);
         FileLoader::includeFile(__DIR__ . '/config/events.php', true);
+
+        // TODO: Set status based on some external parameters
+        $dependencyInjector->get('config')->api->status = 'OK';
     }
 
 }

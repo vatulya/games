@@ -7,8 +7,9 @@ class IndexController extends ControllerBase
 
     public function indexAction()
     {
-        // nothing
-        $this->view->message = 'api::index::index';
+        $config = $this->getDI()->get('config');
+        $this->view->api_version = $config->api->version;
+        $this->view->status = $config->api->status;
     }
 
 }

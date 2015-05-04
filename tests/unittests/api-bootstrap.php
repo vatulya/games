@@ -28,8 +28,14 @@ FileLoader::includeFile(APPLICATION_PATH . '/config/routers.php');
 FileLoader::includeFile(APPLICATION_PATH . '/config/services.php');
 FileLoader::includeFile(APPLICATION_PATH . '/config/events.php');
 
+require_once APPLICATION_PATH . '/modules/api/Module.php';
+$module = new \Games\Module\Api\Module();
+$module->registerAutoloaders($di);
+$module->registerServices($di);
+
 $loader = new \Phalcon\Loader();
 $loader->registerNamespaces([
     'Test\Games' => TEST_PATH,
+    'Test\Games\Module\Api\Controller' => TEST_PATH . '/modules/api/controllers',
 ]);
 $loader->register();

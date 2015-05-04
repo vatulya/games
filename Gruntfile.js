@@ -27,10 +27,16 @@ module.exports = function(grunt) {
                 options: {
                     mode: 0777,
                     create: [
+                        'logs/',
                         'logs/admin',
                         'logs/api',
                         'logs/frontend',
-                        'logs/backend'
+                        'logs/backend',
+                        'logs-tests/',
+                        'logs-tests/admin',
+                        'logs-tests/api',
+                        'logs-tests/frontend',
+                        'logs-tests/backend'
                     ]
                 }
             }
@@ -44,7 +50,9 @@ module.exports = function(grunt) {
                     'app/cache',
                     'app/cache/**',
                     'logs',
-                    'logs/**'
+                    'logs/**',
+                    'logs-tests',
+                    'logs-tests/**'
                 ]
             }
         }

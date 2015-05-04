@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit bootstrap="./bootstrap.php"
+<phpunit bootstrap="./api-bootstrap.php"
          backupGlobals="false"
          backupStaticAttributes="false"
          verbose="true"
@@ -10,9 +10,7 @@
          processIsolation="false"
          stopOnFailure="false"
          syntaxCheck="true">
-    <testsuite name="Project Games - unit tests">
-        <directory>./libraries</directory>
-        <directory>./plugins</directory>
-        <directory>./services</directory>
+    <testsuite name="Project Games - Api module - unit tests">
+        <directory>./modules/api</directory>
     </testsuite>
 </phpunit>
