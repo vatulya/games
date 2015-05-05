@@ -18,17 +18,19 @@ class IndexControllerTest extends UnitTestCase
     {
         parent::setUp();
 
+        $this->di->set('view', new View()); // set clear View
         $this->controller = new IndexController();
+        $this->controller->setDI($this->di);
+        $this->controller->view = $this->di->get('view');
     }
 
     public function testIndexAction()
     {
-        $view = new View();
-        $this->di->set('view', $view); // set clear View
+        $view = $this->di->get('view');
         $this->controller->indexAction();
 
         $config = $this->di->get('config');
-        $this->assertStringMatchesFormat($config->api->version, (string)$view->api_version, '"api_version" must contains correct value from config');
+        $this->assertStringMatchesFormat((string)$config->api->version, (string)$view->api_version, '"api_version" must contains correct value from config');
         $this->assertStringMatchesFormat($config->api->status, (string)$view->status, '"status" must contains correct value from config');
     }
 

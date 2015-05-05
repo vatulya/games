@@ -17,8 +17,4 @@ return new \Phalcon\Config([
         'dbname' => 'games',
         'charset' => 'utf8',
     ],
-
-    'application' => [
-        'modelsDir' => '../app/models/', // For phalcon dev tools. TODO: try to move into another config
-    ],
 ]);

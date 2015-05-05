@@ -1,5 +1,6 @@
 # Logs
 logs/
+logs-tests/
 
 # local file versions
 *.local.php
@@ -19,6 +20,7 @@ composer.lock
 
 
 ### Phalcon template
+.phalcon/**
 /app/cache/
 #/app/config/development/
 
