@@ -2,9 +2,9 @@
 
 namespace Test\Games\Module\Api\Controller;
 
-use Games\Model\Games as ModelGames;
 use Phalcon\Mvc\View as View;
 use Test\Games\UnitTestCase as UnitTestCase;
+use Games\Model\Game as ModelGame;
 use Games\Module\Api\Controller\GamesController as GamesController;
 
 class GamesControllerTest extends UnitTestCase
@@ -15,8 +15,7 @@ class GamesControllerTest extends UnitTestCase
      */
     protected $controller;
 
-    public function setUp()
-    {
+    public function setUp() {
         parent::setUp();
 
         $this->di->set('view', new View()); // set clear View
@@ -25,31 +24,27 @@ class GamesControllerTest extends UnitTestCase
         $this->controller->view = $this->di->get('view');
     }
 
-    public function testIndexActionIsAliasToListAction()
-    {
-        $controller = $this->getMockBuilder('Games\Module\Api\Controller\GamesController')
-            ->setMethods(['listAction'])
-            ->getMock();
+    public function testIndexActionIsAliasToListAction() {
+        $controller = $this->getMockBuilder('Games\Module\Api\Controller\GamesController')->setMethods(['listAction'])->getMock();
         $controller->expects($this->once())->method('listAction');
         $controller->indexAction();
     }
 
-    public function testListAction()
-    {
-        /** @var ModelGames[] $gamesModels */
-        $gamesModels = ModelGames::find([
+    public function testListAction() {
+        /** @var ModelGame[] $gamesModels */
+        $gamesModels = ModelGame::find([
             'condition' => 'status NOT IN ("not active", "deleted")',
             'order' => 'title ASC',
         ]);
         $games = [];
         foreach ($gamesModels as $gamesModel) {
             $games[] = [
-                'id' => $gamesModel->getId(),
-                'title' => $gamesModel->getTitle(),
-                'code' => $gamesModel->getCode(),
-                'status' => $gamesModel->getStatus(),
-                'description' => $gamesModel->getDescription(),
-                'url' => $gamesModel->getUrl(),
+                'id' => $gamesModel->id,
+                'title' => $gamesModel->title,
+                'code' => $gamesModel->code,
+                'status' => $gamesModel->status,
+                'description' => $gamesModel->description,
+                'url' => $gamesModel->url,
             ];
         }
 

@@ -1,12 +1,5 @@
 <?php
 
-use Phalcon\Mvc\View as View;
-use Phalcon\Mvc\Url as UrlResolver;
-use Phalcon\Db\Adapter\Pdo\Mysql as DbAdapter;
-use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
-use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
-use Phalcon\Session\Adapter\Files as SessionAdapter;
-
 $di = \Phalcon\Di::getDefault();
 $config = $di->get('config');
 
@@ -23,8 +16,18 @@ $di->setShared('logger', function () {
     return $logger;
 });
 
+// TODO: move this function into another place
+if (!function_exists('logger')) {
+    /**
+     * @return \Phalcon\Logger\Adapter
+     */
+    function logger() {
+        return \Phalcon\Di::getDefault()->get('logger');
+    }
+}
+
 $di->setShared('db', function () use ($config) {
-    return new DbAdapter([
+    return new \Phalcon\Db\Adapter\Pdo\Mysql([
         'host' => $config->database->host,
         'username' => $config->database->username,
         'password' => $config->database->password,
@@ -35,19 +38,27 @@ $di->setShared('db', function () use ($config) {
 
 $di->setShared('eventsManager', '\Phalcon\Events\Manager');
 
-$di->set('dispatcher', function() use ($di, $config) {
+$di->set('dispatcher', function () use ($di, $config) {
     $dispatcher = new \Phalcon\Mvc\Dispatcher();
     $dispatcher->setDefaultNamespace($config->dispatcher->defaultNamespace);
     $dispatcher->setEventsManager($di->get('eventsManager'));
+
     return $dispatcher;
 });
 
 $di->set('modelsMetadata', function () {
-    return new MetaDataAdapter();
+    return new \Phalcon\Mvc\Model\Metadata\Memory();
+});
+
+$di->setShared('security', function () {
+    $security = new \Phalcon\Security();
+    $security->setWorkFactor(12);
+
+    return $security;
 });
 
 $di->setShared('session', function () use ($di) {
-    $session = new SessionAdapter([
+    $session = new \Phalcon\Session\Adapter\Files([
         'uniqueId' => $di->get('router')->getModuleName(),
     ]);
     $session->start();
@@ -56,23 +67,25 @@ $di->setShared('session', function () use ($di) {
 });
 
 $di->setShared('view', function () {
-    $view = new View();
+    $view = new \Phalcon\Mvc\View();
     $view->registerEngines([
-        ".volt" => function($view, $di) {
-            $volt = new VoltEngine($view, $di);
+        ".volt" => function ($view, $di) {
+            $volt = new \Phalcon\Mvc\View\Engine\Volt($view, $di);
 
-            $volt->setOptions(array(
-                'compiledPath' => function($templatePath) {
+            $volt->setOptions([
+                'compiledPath' => function ($templatePath) {
                     $filename = str_replace('..', '__', $templatePath);
                     $filename = str_replace('/', '_', $filename);
                     $dir = APPLICATION_PATH . '/cache/' . $filename . '.php';
+
                     return $dir;
                 }
-            ));
+            ]);
 
             return $volt;
         }
     ]);
+
     return $view;
 });
 

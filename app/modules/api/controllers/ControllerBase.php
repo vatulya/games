@@ -2,9 +2,10 @@
 
 namespace Games\Module\Api\Controller;
 
-use Phalcon\Http\Response;
-use Phalcon\Mvc\Controller;
-use Phalcon\Mvc\ViewInterface;
+use Phalcon\Http\Response as Response;
+use Phalcon\Mvc\Controller as Controller;
+use Phalcon\Mvc\ViewInterface as ViewInterface;
+use Games\Model\Game as Game;
 
 /**
  * @property ViewInterface $view
@@ -14,6 +15,25 @@ class ControllerBase extends Controller
 
     const FORMAT_XML = 'xml';
     const FORMAT_JSON = 'json';
+
+    /**
+     * @var Game|null
+     */
+    protected $game;
+
+    /**
+     * @return Game|null
+     */
+    public function getGame() {
+        return $this->game;
+    }
+
+    /**
+     * @param Game $game
+     */
+    public function setGame(Game $game) {
+        $this->game = $game;
+    }
 
     public function afterExecuteRoute() {
         $format = $this->request->get('format');

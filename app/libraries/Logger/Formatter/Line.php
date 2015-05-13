@@ -2,11 +2,11 @@
 
 namespace Games\Library\Logger\Formatter;
 
-use Games\Library\Datetime;
 use Phalcon\Logger as Logger;
 use Phalcon\Logger\FormatterInterface as FormatterInterface;
 use Phalcon\Mvc\Dispatcher as Dispatcher;
 use Phalcon\Di as Di;
+use Games\Library\Datetime as Datetime;
 
 class Line implements FormatterInterface
 {
@@ -29,7 +29,7 @@ class Line implements FormatterInterface
         Logger::SPECIAL => 'SPECIAL',
     ];
 
-        /**
+    /**
      * @var string
      */
     protected $stringFormat = '[%datetime%][%type%][%module%] %message%';
@@ -37,8 +37,7 @@ class Line implements FormatterInterface
     /**
      * @param string $format
      */
-    public function __construct($format = '')
-    {
+    public function __construct($format = '') {
         if (!empty($format)) {
             $this->stringFormat = $format;
         }
@@ -65,27 +64,27 @@ class Line implements FormatterInterface
         ];
 
         $logString = str_replace(array_keys($data), array_values($data), $this->stringFormat);
+
         return $logString;
     }
 
     /**
      * @return string
      */
-    static public function getActiveModule()
-    {
+    static public function getActiveModule() {
         if (empty(self::$activeModule)) {
             /** @var Dispatcher $dispatcher */
             $dispatcher = Di::getDefault()->get('dispatcher');
-            self::setActiveModule($dispatcher->getModuleName());
+            self::setActiveModule((string)$dispatcher->getModuleName());
         }
+
         return self::$activeModule;
     }
 
     /**
      * @param string $module
      */
-    static public function setActiveModule($module)
-    {
+    static public function setActiveModule($module) {
         if (!is_string($module)) {
             throw new \InvalidArgumentException('Wrong module type. Must be string.');
         }
@@ -97,11 +96,11 @@ class Line implements FormatterInterface
      *
      * @return string
      */
-    static public function getTypeString($type)
-    {
+    static public function getTypeString($type) {
         if (!isset(self::$types[$type])) {
             return 'UNKNOWN TYPE (' . $type . ')';
         }
+
         return self::$types[$type];
     }
 
