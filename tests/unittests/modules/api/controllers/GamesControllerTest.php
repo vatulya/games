@@ -4,14 +4,14 @@ namespace Test\Games\Module\Api\Controller;
 
 use Phalcon\Mvc\View as View;
 use Test\Games\UnitTestCase as UnitTestCase;
-use Games\Model\Game as ModelGame;
-use Games\Module\Api\Controller\GamesController as GamesController;
+use Games\Model\Application as ModelApplication;
+use Games\Module\Api\Controller\ApplicationsController as ApplicationsController;
 
 class GamesControllerTest extends UnitTestCase
 {
 
     /**
-     * @var GamesController
+     * @var ApplicationsController
      */
     protected $controller;
 
@@ -19,32 +19,32 @@ class GamesControllerTest extends UnitTestCase
         parent::setUp();
 
         $this->di->set('view', new View()); // set clear View
-        $this->controller = new GamesController();
+        $this->controller = new ApplicationsController();
         $this->controller->setDI($this->di);
         $this->controller->view = $this->di->get('view');
     }
 
     public function testIndexActionIsAliasToListAction() {
-        $controller = $this->getMockBuilder('Games\Module\Api\Controller\GamesController')->setMethods(['listAction'])->getMock();
+        $controller = $this->getMockBuilder('Games\Module\Api\Controller\ApplicationsController')->setMethods(['listAction'])->getMock();
         $controller->expects($this->once())->method('listAction');
         $controller->indexAction();
     }
 
     public function testListAction() {
-        /** @var ModelGame[] $gamesModels */
-        $gamesModels = ModelGame::find([
+        /** @var ModelApplication[] $applicationModels */
+        $applicationModels = ModelApplication::find([
             'condition' => 'status NOT IN ("not active", "deleted")',
             'order' => 'title ASC',
         ]);
-        $games = [];
-        foreach ($gamesModels as $gamesModel) {
-            $games[] = [
-                'id' => $gamesModel->id,
-                'title' => $gamesModel->title,
-                'code' => $gamesModel->code,
-                'status' => $gamesModel->status,
-                'description' => $gamesModel->description,
-                'url' => $gamesModel->url,
+        $applications = [];
+        foreach ($applicationModels as $applicationModel) {
+            $applications[] = [
+                'id' => $applicationModel->id,
+                'title' => $applicationModel->title,
+                'code' => $applicationModel->code,
+                'status' => $applicationModel->status,
+                'description' => $applicationModel->description,
+                'url' => $applicationModel->url,
             ];
         }
 
@@ -52,7 +52,7 @@ class GamesControllerTest extends UnitTestCase
 
         $view = $this->di->get('view');
 
-        $this->assertEquals($games, $view->games, 'result and database data must be the same');
+        $this->assertEquals($applications, $view->applications, 'result and database data must be the same');
     }
 
 }

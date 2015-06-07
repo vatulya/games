@@ -6,9 +6,9 @@ use Phalcon\Events\Event as Event;
 use Phalcon\Http\Request as Request;
 use Phalcon\Mvc\Dispatcher as Dispatcher;
 use Phalcon\Mvc\User\Plugin as Plugin;
-use Games\Model\Game as Game;
-use Games\Model\Game\ApiKey as ApiKey;
 use Games\Module\Api\Controller\ControllerBase as ControllerBase;
+use Games\Model\Application as Application;
+use Games\Model\Application\ApiKey as ApplicationApiKey;
 
 class Security extends Plugin
 {
@@ -46,14 +46,14 @@ class Security extends Plugin
 
         $this->checkParams($params, $apiKeyModel->private_key);
 
-        /** @var Game $game */
-        $game = $apiKeyModel->getGame();
+        /** @var Application $application */
+        $application = $apiKeyModel->getApplication();
 
         /** @var ControllerBase $activeController */
         $activeController = $dispatcher->getActiveController();
-        $activeController->setGame($game);
+        $activeController->setApplication($application);
 
-        $permissions = $game->getPermissionsCompiled();
+        $permissions = $application->getPermissionsCompiled();
         if ($this->isAllowedRoute($controller, $action, $permissions)) {
             return true;
         }
@@ -96,7 +96,7 @@ class Security extends Plugin
 
         ksort($params);
 
-        $hash = md5(implode('', $params) . $privateKey);
+        $hash = md5(http_build_query($params) . $privateKey);
         if ($checkSum !== $hash) {
             throw new \RuntimeException('Wrong checksum');
         }
@@ -107,7 +107,7 @@ class Security extends Plugin
     /**
      * @param array $params
      *
-     * @return ApiKey
+     * @return ApplicationApiKey
      */
     public function getApiKey($params) {
         if (!isset($params[self::KEY_API_KEY])) {
@@ -116,8 +116,8 @@ class Security extends Plugin
 
         $apiKey = $params[self::KEY_API_KEY];
 
-        /** @var ApiKey $apiKeyModel */
-        $apiKeyModel = ApiKey::findFirst(['api_key' => $apiKey]);
+        /** @var ApplicationApiKey $apiKeyModel */
+        $apiKeyModel = ApplicationApiKey::findFirst(['api_key' => $apiKey]);
         if (!$apiKeyModel) {
             throw new \RuntimeException('Wrong API key');
         }

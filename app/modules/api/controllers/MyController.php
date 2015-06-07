@@ -10,14 +10,14 @@ class MyController extends ControllerBase
     }
 
     public function infoAction() {
-        $game = $this->getGame();
+        $application = $this->getApplication();
         $this->view->setVars([
-            'id' => $game->id,
-            'title' => $game->title,
-            'code' => $game->code,
-            'status' => $game->status,
-            'description' => $game->description,
-            'url' => $game->url,
+            'id' => $application->id,
+            'title' => $application->title,
+            'code' => $application->code,
+            'status' => $application->status,
+            'description' => $application->description,
+            'url' => $application->url,
         ]);
     }
 

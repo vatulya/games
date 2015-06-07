@@ -2,7 +2,7 @@
 
 namespace Games\Model;
 
-use Games\Model\Game\ApiKey as ApiKey;
+use Games\Model\Application\ApiKey as ApiKey;
 
 /**
  * @property $id
@@ -13,7 +13,7 @@ use Games\Model\Game\ApiKey as ApiKey;
  * @property $url
  * @method ApiKey getApiKey
  */
-class Game extends AbstractModel
+class Application extends AbstractModel
 {
 
     /**
@@ -47,7 +47,7 @@ class Game extends AbstractModel
     protected $url;
 
     public function initialize() {
-        $this->hasOne('id', 'Games\Model\ApiKey', 'games_id', [
+        $this->hasOne('id', 'Games\Model\Application\ApiKey', 'application_id', [
             'alias' => 'apiKey',
         ]);
     }
@@ -60,7 +60,7 @@ class Game extends AbstractModel
     }
 
     public function getSource() {
-        return 'games';
+        return 'applications';
     }
 
 }

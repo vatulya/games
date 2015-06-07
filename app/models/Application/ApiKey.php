@@ -1,6 +1,6 @@
 <?php
 
-namespace Games\Model\Game;
+namespace Games\Model\Application;
 
 use Games\Model\AbstractModel as AbstractModel;
 
@@ -12,7 +12,7 @@ use Games\Model\AbstractModel as AbstractModel;
  * @property $status
  * @property $description
  * @property $created
- * @method getGame
+ * @method getApplication
  */
 class ApiKey extends AbstractModel
 {
@@ -25,7 +25,7 @@ class ApiKey extends AbstractModel
     /**
      * @var int
      */
-    protected $games_id;
+    protected $application_id;
 
     /**
      * @var string
@@ -53,13 +53,13 @@ class ApiKey extends AbstractModel
     protected $created;
 
     public function initialize() {
-        $this->belongsTo('games_id', 'Games\Model\Game', 'id', [
-            'alias' => 'game',
+        $this->belongsTo('games_id', 'Games\Model\Application', 'id', [
+            'alias' => 'application',
         ]);
     }
 
     public function getSource() {
-        return 'games_api_keys';
+        return 'applications_api_keys';
     }
 
 }

@@ -5,13 +5,13 @@ use Phalcon\Db\Index;
 use Phalcon\Db\Reference;
 use Phalcon\Mvc\Model\Migration;
 
-class GamesMigration_100 extends Migration
+class ApplicationsMigration_100 extends Migration
 {
 
     public function up()
     {
         $this->morphTable(
-            'games',
+            'applications',
             array(
             'columns' => array(
                 new Column(
