@@ -25,7 +25,7 @@ class ApiKey extends AbstractModel
     /**
      * @var int
      */
-    protected $application_id;
+    protected $applications_id;
 
     /**
      * @var string
@@ -53,7 +53,7 @@ class ApiKey extends AbstractModel
     protected $created;
 
     public function initialize() {
-        $this->belongsTo('games_id', 'Games\Model\Application', 'id', [
+        $this->belongsTo('applications_id', 'Games\Model\Application', 'id', [
             'alias' => 'application',
         ]);
     }
