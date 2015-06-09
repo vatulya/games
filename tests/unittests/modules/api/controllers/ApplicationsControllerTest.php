@@ -7,7 +7,7 @@ use Test\Games\UnitTestCase as UnitTestCase;
 use Games\Model\Application as ModelApplication;
 use Games\Module\Api\Controller\ApplicationsController as ApplicationsController;
 
-class GamesControllerTest extends UnitTestCase
+class ApplicationsControllerTest extends UnitTestCase
 {
 
     /**
@@ -33,7 +33,7 @@ class GamesControllerTest extends UnitTestCase
     public function testListAction() {
         /** @var ModelApplication[] $applicationModels */
         $applicationModels = ModelApplication::find([
-            'condition' => 'status NOT IN ("not active", "deleted")',
+            'condition' => 'status IN ("active")',
             'order' => 'title ASC',
         ]);
         $applications = [];

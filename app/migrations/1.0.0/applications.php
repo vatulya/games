@@ -47,7 +47,7 @@ class ApplicationsMigration_100 extends Migration
                     array(
                         'type' => Column::TYPE_CHAR,
                         'notNull' => true,
-                        'size' => 1,
+                        'size' => 10,
                         'after' => 'code'
                     )
                 ),

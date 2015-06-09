@@ -2,7 +2,9 @@
 
 namespace Games\Model;
 
+use Phalcon\Mvc\Model\ResultsetInterface as ResultsetInterface;
 use Games\Model\Application\ApiKey as ApiKey;
+use Games\Model\Application\Game as Game;
 
 /**
  * @property $id
@@ -12,6 +14,7 @@ use Games\Model\Application\ApiKey as ApiKey;
  * @property $description
  * @property $url
  * @method ApiKey getApiKey
+ * @method Game[]|ResultsetInterface getGames
  */
 class Application extends AbstractModel
 {
@@ -47,8 +50,11 @@ class Application extends AbstractModel
     protected $url;
 
     public function initialize() {
-        $this->hasOne('id', 'Games\Model\Application\ApiKey', 'application_id', [
+        $this->hasOne('id', 'Games\Model\Application\ApiKey', 'applications_id', [
             'alias' => 'apiKey',
+        ]);
+        $this->hasMany('id', 'Games\Model\Application\Game', 'applications_id', [
+            'alias' => 'games',
         ]);
     }
 
@@ -56,7 +62,17 @@ class Application extends AbstractModel
         // TODO: get all permissions, compile permissions groups and return simple array
         return [
             ['my'],
+            ['games'],
         ];
+    }
+
+    /**
+     * @param $code
+     *
+     * @return Application
+     */
+    static public function findByCode($code) {
+        return static::findFirst(['code' => $code]);
     }
 
     public function getSource() {

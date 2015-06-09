@@ -21,6 +21,8 @@ class Security extends Plugin
      * @var array
      */
     protected $publicRoutes = [
+        ['applications', 'index'],
+        ['applications', 'list'],
         ['index'],
     ];
 

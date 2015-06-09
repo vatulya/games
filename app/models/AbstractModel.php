@@ -2,6 +2,9 @@
 
 namespace Games\Model;
 
+/**
+ * @method array toArray
+ */
 abstract class AbstractModel extends \Phalcon\Mvc\Model
 {
 
@@ -28,6 +31,5 @@ abstract class AbstractModel extends \Phalcon\Mvc\Model
         }
         throw new \RuntimeException('Can\'t get property "' . $property . '" from model "' . get_class($this) . '"');
     }
-
 
 }

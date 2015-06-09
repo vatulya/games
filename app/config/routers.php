@@ -22,7 +22,7 @@ $di->set('router', function () use ($di) {
         return true;
     };
 
-    // Admin module
+    // ================================================= Admin module
     $adminGroup = new RouterGroup([
         'module' => 'admin',
     ]);
@@ -30,7 +30,7 @@ $di->set('router', function () use ($di) {
     $addSubRoutes($adminGroup);
     $router->mount($adminGroup);
 
-    // Api module
+    // ================================================= Api module
     $apiGroup = new RouterGroup([
         'module' => 'api',
         'controller' => 'index',
@@ -38,9 +38,13 @@ $di->set('router', function () use ($di) {
     ]);
     $apiGroup->setHostname($config['moduleUrlBase']['api']);
     $addSubRoutes($apiGroup);
+
+    $apiGroup->add('/:applicationCode/:controller/', ['controller' => 2]);
+    $apiGroup->add('/{applicationCode}/:controller/:action', ['applicationCode' => 1, 'controller' => 2, 'action' => 3]);
+
     $router->mount($apiGroup);
 
-    // Backend module
+    // ================================================= Backend module
     $backendGroup = new RouterGroup([
         'module' => 'backend',
         'controller' => 'index',
@@ -50,7 +54,7 @@ $di->set('router', function () use ($di) {
     $addSubRoutes($backendGroup);
     $router->mount($backendGroup);
 
-    // Frontend module
+    // ================================================= Frontend module
     $frontendGroup = new RouterGroup([
         'module' => 'frontend',
         'controller' => 'index',

@@ -17,20 +17,9 @@ class ApplicationsController extends ControllerBase
             'condition' => 'status <> "deleted"',
             'order' => 'title ASC',
         ]);
-        $applications = [];
-        foreach ($applicationModels as $applicationModel) {
-            $applications[] = [
-                'id' => $applicationModel->id,
-                'title' => $applicationModel->title,
-                'code' => $applicationModel->code,
-                'status' => $applicationModel->status,
-                'description' => $applicationModel->description,
-                'url' => $applicationModel->url,
-            ];
-        }
 
         $this->view->setVars([
-            'applications' => $applications,
+            'applications' => $applicationModels->toArray(),
             'total' => ModelApplication::count(['status NOT IN ("not active", "deleted")']),
         ]);
     }

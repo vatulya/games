@@ -6,7 +6,7 @@ use Games\Model\AbstractModel as AbstractModel;
 
 /**
  * @property $id
- * @property $game_id
+ * @property $applications_id
  * @property $api_key
  * @property $private_key
  * @property $status

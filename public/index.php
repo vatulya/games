@@ -19,6 +19,8 @@ try {
     echo $application->handle()->getContent();;
 
 } catch (\Exception $e) {
+    http_response_code(500);
+
     $message = 'UNCAUGHT EXCEPTION: ' . $e->getMessage() . ' [' . $e->getFile() . ':' . $e->getLine() . ']';
     if (isset($di) && $di instanceof \Phalcon\Di && $di->has('logger')) {
         $di->get('logger')->emergency($message);

@@ -38,7 +38,7 @@ $di->setShared('db', function () use ($config) {
 
 $di->setShared('eventsManager', '\Phalcon\Events\Manager');
 
-$di->set('dispatcher', function () use ($di, $config) {
+$di->setShared('dispatcher', function () use ($di, $config) {
     $dispatcher = new \Phalcon\Mvc\Dispatcher();
     $dispatcher->setDefaultNamespace($config->dispatcher->defaultNamespace);
     $dispatcher->setEventsManager($di->get('eventsManager'));
