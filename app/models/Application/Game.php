@@ -53,7 +53,7 @@ class Game extends AbstractModel
         if (!$this->id) {
             // insert
             $this->setHash();
-            $this->created = time();
+            $this->created = date('Y-m-d H:i:s');
         } else {
             unset($data['hash'], $data['created']);
         }
