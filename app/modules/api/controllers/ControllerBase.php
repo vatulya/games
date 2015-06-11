@@ -5,7 +5,7 @@ namespace Games\Module\Api\Controller;
 use Phalcon\Http\Response as Response;
 use Phalcon\Mvc\Controller as Controller;
 use Phalcon\Mvc\ViewInterface as ViewInterface;
-use Games\Model\Application as Application;
+use Games\Model\Application as ModelApplication;
 
 /**
  * @property ViewInterface $view
@@ -17,21 +17,21 @@ class ControllerBase extends Controller
     const FORMAT_JSON = 'json';
 
     /**
-     * @var Application|null
+     * @var ModelApplication|null
      */
     protected $application;
 
     /**
-     * @return Application|null
+     * @return ModelApplication|null
      */
     public function getApplication() {
         return $this->application;
     }
 
     /**
-     * @param Application $application
+     * @param ModelApplication $application
      */
-    public function setApplication(Application $application) {
+    public function setApplication(ModelApplication $application) {
         $this->application = $application;
     }
 

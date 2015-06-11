@@ -17,4 +17,8 @@ return new \Phalcon\Config([
         'dbname' => 'games',
         'charset' => 'utf8',
     ],
+
+    'mongodb' => [
+        'host' => '127.0.0.1',
+    ],
 ]);

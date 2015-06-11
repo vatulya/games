@@ -63,6 +63,7 @@ class Application extends AbstractModel
         return [
             ['my'],
             ['games'],
+            ['tokens'],
         ];
     }
 

@@ -61,10 +61,10 @@ class Game extends AbstractModel
     }
 
     /**
-     * @param string $hash
+     * @param string|null $hash
      */
-    public function setHash($hash = '') {
-        if (empty($hash)) {
+    public function setHash($hash = null) {
+        if ($hash === null) {
             $hash = $this->generateHash();
         }
         $this->hash = $hash;

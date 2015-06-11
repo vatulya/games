@@ -36,6 +36,15 @@ $di->setShared('db', function () use ($config) {
     ]);
 });
 
+$di->set('mongo', function() use ($config) {
+    $mongo = new MongoClient('mongodb://' . $config->mongodb->host);
+    return $mongo->selectDb($config->mongodb->db);
+}, true);
+
+$di->set('collectionManager', function(){
+    return new \Phalcon\Mvc\Collection\Manager();
+}, true);
+
 $di->setShared('eventsManager', '\Phalcon\Events\Manager');
 
 $di->setShared('dispatcher', function () use ($di, $config) {

@@ -4,6 +4,7 @@ namespace Games\Module\Api\Controller;
 
 use Games\Model\Application as ModelApplication;
 use Games\Model\Application\Game as ModelGame;
+use Games\Collection\Api\Token as CollectionToken;
 
 class GamesController extends ControllerBase
 {
